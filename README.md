@@ -5,4 +5,4 @@ The web app for collecting survey.
 
 [Vision Statement](../../wiki/Vision%20Statement)
 
-[Requirement](../../wiki/Requirements)
+[Requirements](../../wiki/Requirements)
