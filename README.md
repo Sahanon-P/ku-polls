@@ -5,7 +5,7 @@ For more detail here's the [Wiki](../../wiki/Home)
 
 Now this project are in progress
 
-To see the Iteration 1 Plan [click](../../wiki/Iteration%201%20Plan)
+To see the **Iteration 1 Plan** [click](../../wiki/Iteration%201%20Plan)
 
-To see the project task board [click](../../projects/1)
+To see the **Project task board** [click](../../projects/1)
 
