@@ -82,3 +82,11 @@ class QuestionDetailViewTests(TestCase):
         url = reverse('polls:detail', args=(past_question.id,))
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)
+
+
+class TestVoteAndPublished(TestCase):
+    def test_is_published(self):
+        pass
+
+    def test_can_vote(self):
+        pass

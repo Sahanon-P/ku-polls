@@ -16,7 +16,11 @@ class Question(models.Model):
     was_published_recently.boolean = True
     was_published_recently.short_description = 'Published recently?'
 
-    
+    def is_published(self):
+        return timezone.now() >= self.pub_date
+
+    def can_vote(self):
+        return self.is_published() and timezone.now() < self.end_date
     
 
 class Choice(models.Model):
