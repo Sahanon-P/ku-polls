@@ -7,7 +7,11 @@ For more detail here's the [Wiki](../../wiki/Home)
 
 To see the **Iteration 1 Plan** [click](../../wiki/Iteration%201%20Plan)
 
-To see the **Project task board** [click](../../projects/1)
+To see the **Iteration 2 Plan** [click](../../wiki/Iteration%202%20Plan)
 
-**Iteration 2 Coming Soon.....**
+To see the **Iteration 1 task board** [click](../../projects/1)
+
+To see the **Iteration 2 task board** [click](../../projects/2)
+
+**Iteration 3 Coming Soon.....**
 
