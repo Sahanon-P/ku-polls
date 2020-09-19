@@ -22,7 +22,7 @@ class DetailView(generic.DetailView):
     def get(self, request, **kwargs):
         try:
             question = Question.objects.get(pk=kwargs['pk'])
-            if not question.can_vote():
+            if not question.can_vote() :
                 return HttpResponseRedirect(reverse('polls:index'), messages.error(request, "This poll is already closed. Can't vote!!!"))
         except ObjectDoesNotExist:
             return HttpResponseRedirect(reverse('polls:index'), messages.error(request, "This poll is not exist."))
