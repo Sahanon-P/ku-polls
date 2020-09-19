@@ -41,7 +41,7 @@ class ResultsView(generic.DetailView):
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if not question.can_vote():
-        return HttpResponseRedirect(reverse('polls:index'), messeges.error("Can't vote after poll closed."))
+        return HttpResponseRedirect(reverse('polls:index'))
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
