@@ -1,4 +1,5 @@
 # Kasetsart University Survey Web Application
+[![Build Status](https://travis-ci.com/Sahanon-P/ku-polls.svg?branch=master)](https://travis-ci.com/Sahanon-P/ku-polls)[![codecov](https://codecov.io/gh/Sahanon-P/ku-polls/branch/master/graph/badge.svg)](https://codecov.io/gh/Sahanon-P/ku-polls)
 The survey web app that will be the solution for anyone who wants free-from surveys with many options to modify.
 
 For more detail here's the [Wiki](../../wiki/Home)
