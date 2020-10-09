@@ -6,36 +6,53 @@ from .models import Question
 
 
 def create_question(question_text, days):
+    """Create the sample question
 
+    Parameters
+    ----------
+    question_text : str
+        Text of the sample question
+    days : datetime
+        The published date
+    """
     time = timezone.now() + datetime.timedelta(days=days)
     return Question.objects.create(question_text=question_text, pub_date=time)
 
 
 class QuestionModelTest(TestCase):
+    """Class for testing the question model"""
+
     def test_was_published_recently_with_future_question(self):
+        """Check if it's published recently with the future question."""
         time = timezone.now() + datetime.timedelta(days=30)
         future_question = Question(pub_date=time)
         self.assertIs(future_question.was_published_recently(), False)
 
     def test_was_published_recently_with_old_question(self):
+        """Check if it's published recently with the old question."""
         time = timezone.now() - datetime.timedelta(days=1, seconds=1)
         old_question = Question(pub_date=time)
         self.assertIs(old_question.was_published_recently(), False)
 
     def test_was_published_recently_with_recent_question(self):
+        """Check if it's published recently with the recent question."""
         time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
 
 class QuestionIndexViewTests(TestCase):
+    """Class for texting the index views"""
+
     def test_no_questions(self):
+        """Check when there's no question."""
         response = self.client.get(reverse('polls:index'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No polls are available.")
         self.assertQuerysetEqual(response.context['latest_question_list'], [])
 
     def test_past_question(self):
+        """Check views for the past question."""
         create_question(question_text="Past question.", days=-30)
         response = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(
@@ -44,12 +61,14 @@ class QuestionIndexViewTests(TestCase):
         )
 
     def test_future_question(self):
+        """Check views for the future question."""
         create_question(question_text="Future question.", days=30)
         response = self.client.get(reverse('polls:index'))
         self.assertContains(response, "No polls are available.")
         self.assertQuerysetEqual(response.context['latest_question_list'], [])
 
     def test_future_question_and_past_question(self):
+        """Check views for the future question and past question."""
         create_question(question_text="Past question.", days=-30)
         create_question(question_text="Future question.", days=30)
         response = self.client.get(reverse('polls:index'))
@@ -59,6 +78,7 @@ class QuestionIndexViewTests(TestCase):
         )
 
     def test_two_past_questions(self):
+        """Check views for the two past questions."""
         create_question(question_text="Past question 1.", days=-30)
         create_question(question_text="Past question 2.", days=-5)
         response = self.client.get(reverse('polls:index'))
@@ -69,7 +89,10 @@ class QuestionIndexViewTests(TestCase):
 
 
 class QuestionDetailViewTests(TestCase):
+    """Class for testing the detail views"""
+
     def test_future_question(self):
+        """Check responsive for future question"""
         future_question = create_question(
             question_text='Future question.', days=5)
         url = reverse('polls:detail', args=(future_question.id,))
@@ -77,6 +100,7 @@ class QuestionDetailViewTests(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_past_question(self):
+        """Check responsive for past question"""
         past_question = create_question(
             question_text='Past Question.', days=-5)
         url = reverse('polls:detail', args=(past_question.id,))
@@ -85,28 +109,35 @@ class QuestionDetailViewTests(TestCase):
 
 
 class TestVoteAndPublished(TestCase):
+    """Class for testing the is_published and can_vote"""
+
     def test_is_published(self):
+        """Check for normal is_published"""
         time = timezone.now() - datetime.timedelta(days=1)
         question = Question(pub_date=time)
         self.assertTrue(question.is_published())
 
     def test_is_published_with_not_published_question(self):
+        """Check is_published with not published question"""
         end_time = timezone.now() + datetime.timedelta(days=1)
         question = Question(pub_date=end_time)
         self.assertFalse(question.is_published())
 
     def test_can_vote(self):
+        """Check for normal can_vote"""
         pub_time = timezone.now() - datetime.timedelta(days=1)
         question = Question(pub_date=pub_time)
         self.assertTrue(question.can_vote())
 
     def test_can_vote_after_question(self):
+        """Check if the question can vote after the end date"""
         pub_time = timezone.now() - datetime.timedelta(days=2)
         end_time = timezone.now() - datetime.timedelta(days=1)
         question = Question(pub_date=pub_time, end_date=end_time)
         self.assertFalse(question.can_vote())
 
     def test_can_vote_before_question(self):
+        """Check if the question can vote before the published date"""
         pub_time = timezone.now() + datetime.timedelta(days=1)
         question = Question(pub_date=pub_time)
         self.assertFalse(question.can_vote())

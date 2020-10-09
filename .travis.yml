@@ -1,0 +1,12 @@
+language: python
+
+# you can use Python 3.7 instead
+python: "3.8"
+
+# don't clone more than necessary
+git:
+  depth: 1
+
+# script to run tests. Script can have many commands, one per line.
+script: 
+  - coverage run --source='.' manage.py test polls
