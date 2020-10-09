@@ -7,6 +7,10 @@ python: "3.8"
 git:
   depth: 1
 
+install:
+  - pip install coverage
 # script to run tests. Script can have many commands, one per line.
 script: 
   - coverage run --source='.' manage.py test polls
+after_script:
+  - bash <(curl -s https://codecov.io/bash)
