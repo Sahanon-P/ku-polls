@@ -1,3 +1,4 @@
+"""Module for using in apps."""
 from django.apps import AppConfig
 
 

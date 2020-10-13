@@ -1,3 +1,4 @@
+"""Module for using in models."""
 import datetime
 from django.db import models
 from django.utils import timezone
@@ -36,11 +37,21 @@ class Question(models.Model):
         'date end', default=timezone.now() + datetime.timedelta(days=1))
 
     def __str__(self):
-        """The method that will return the question text"""
+        """
+        Sting method.
+
+        Return:
+        question text
+        """
         return self.question_text
 
     def was_published_recently(self):
-        """The method that will check the question status that is published or not"""
+        """
+        Check whether it recently published or not.
+
+        Return:
+        True if the question is recently published, False otherwise.
+        """
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
     was_published_recently.admin_order_field = 'pub_date'
@@ -48,12 +59,22 @@ class Question(models.Model):
     was_published_recently.short_description = 'Published recently?'
 
     def is_published(self):
-        """The method that will check the question that is published or not"""
+        """
+        Check whether it published or not.
+
+        Return:
+        True if the question is published, False otherwise.
+        """
         now = timezone.now()
         return now >= self.pub_date
 
     def can_vote(self):
-        """The method that will check is the question can vote or not"""
+        """
+        Check whether it can vote or not.
+
+        Return:
+        True if the question can vote, False otherwise.
+        """
         now = timezone.now()
         return self.pub_date <= now <= self.end_date
 
@@ -66,5 +87,10 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
 
     def __str__(self):
-        """The method that will return the choice text"""
+        """
+        Sting method.
+
+        Return:
+        choice text
+        """
         return self.choice_text

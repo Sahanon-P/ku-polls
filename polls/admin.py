@@ -1,3 +1,4 @@
+"""Module for using in admin."""
 from django.contrib import admin
 from .models import Question, Choice
 
@@ -10,7 +11,7 @@ class ChoiceInline(admin.TabularInline):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    """Class for question in admin"""
+    """Class for question in admin."""
 
     fieldsets = [
         (None, {'fields': ['question_text']}),

@@ -1,3 +1,4 @@
+"""Module for using in tests."""
 import datetime
 from django.test import TestCase
 from django.utils import timezone
@@ -6,7 +7,7 @@ from .models import Question
 
 
 def create_question(question_text, days):
-    """Create the sample question
+    """Create the sample question.
 
     Parameters
     ----------
@@ -20,7 +21,7 @@ def create_question(question_text, days):
 
 
 class QuestionModelTest(TestCase):
-    """Class for testing the question model"""
+    """Class for testing the question model."""
 
     def test_was_published_recently_with_future_question(self):
         """Check if it's published recently with the future question."""
@@ -42,7 +43,7 @@ class QuestionModelTest(TestCase):
 
 
 class QuestionIndexViewTests(TestCase):
-    """Class for texting the index views"""
+    """Class for texting the index views."""
 
     def test_no_questions(self):
         """Check when there's no question."""
@@ -89,10 +90,10 @@ class QuestionIndexViewTests(TestCase):
 
 
 class QuestionDetailViewTests(TestCase):
-    """Class for testing the detail views"""
+    """Class for testing the detail views."""
 
     def test_future_question(self):
-        """Check responsive for future question"""
+        """Check responsive for future question."""
         future_question = create_question(
             question_text='Future question.', days=5)
         url = reverse('polls:detail', args=(future_question.id,))
@@ -100,7 +101,7 @@ class QuestionDetailViewTests(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_past_question(self):
-        """Check responsive for past question"""
+        """Check responsive for past question."""
         past_question = create_question(
             question_text='Past Question.', days=-5)
         url = reverse('polls:detail', args=(past_question.id,))
@@ -109,35 +110,35 @@ class QuestionDetailViewTests(TestCase):
 
 
 class TestVoteAndPublished(TestCase):
-    """Class for testing the is_published and can_vote"""
+    """Class for testing the is_published and can_vote."""
 
     def test_is_published(self):
-        """Check for normal is_published"""
+        """Check for normal is_published."""
         time = timezone.now() - datetime.timedelta(days=1)
         question = Question(pub_date=time)
         self.assertTrue(question.is_published())
 
     def test_is_published_with_not_published_question(self):
-        """Check is_published with not published question"""
+        """Check is_published with not published question."""
         end_time = timezone.now() + datetime.timedelta(days=1)
         question = Question(pub_date=end_time)
         self.assertFalse(question.is_published())
 
     def test_can_vote(self):
-        """Check for normal can_vote"""
+        """Check for normal can_vote."""
         pub_time = timezone.now() - datetime.timedelta(days=1)
         question = Question(pub_date=pub_time)
         self.assertTrue(question.can_vote())
 
     def test_can_vote_after_question(self):
-        """Check if the question can vote after the end date"""
+        """Check if the question can vote after the end date."""
         pub_time = timezone.now() - datetime.timedelta(days=2)
         end_time = timezone.now() - datetime.timedelta(days=1)
         question = Question(pub_date=pub_time, end_date=end_time)
         self.assertFalse(question.can_vote())
 
     def test_can_vote_before_question(self):
-        """Check if the question can vote before the published date"""
+        """Check if the question can vote before the published date."""
         pub_time = timezone.now() + datetime.timedelta(days=1)
         question = Question(pub_date=pub_time)
         self.assertFalse(question.can_vote())
