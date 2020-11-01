@@ -13,10 +13,11 @@ To see the **Iteration 2 Plan** [click](../../wiki/Iteration%202%20Plan)
 
 To see the **Iteration 3 Plan** [click](../../wiki/Iteration%203%20Plan)
 
-**Already closed**
+To see the **Iteration 3 task board** [click](../../projects/3)
+
+## Already closed
+
 Iteration1 task board
 
 Iteration2 task board
-
-To see the **Iteration 3 task board** [click](../../projects/3)
 
