@@ -169,7 +169,7 @@ def vote(request, question_id):
             choice.votes = Vote.objects.filter(question=question).filter(selected_choice=choice).count()
             choice.save()
         if Vote.objects.filter(question=question).filter(selected_choice=choice).count() == 0:
-            selected_choice += 1
+            selected_choice.votes += 1
             selected_choice.save()
         for question in Question.objects.all():
             question.previous_vote = str(request.user.vote_set.get(question=question).selected_choice)
