@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+
 class Question(models.Model):
     """Class of question.
 
@@ -35,7 +36,8 @@ class Question(models.Model):
     pub_date = models.DateTimeField('date published')
     end_date = models.DateTimeField(
         'date end', default=timezone.now() + datetime.timedelta(days=1))
-    previous_vote = models.CharField(max_length = 200, default = "")
+    previous_vote = models.CharField(max_length=200, default="")
+
     def __str__(self):
         """
         Sting method.
@@ -95,7 +97,10 @@ class Choice(models.Model):
         """
         return self.choice_text
 
+
 class Vote(models.Model):
-    user = models.ForeignKey(User,null = True,blank = True,on_delete=models.CASCADE)
+    """Class of the user vote."""
+
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    selected_choice = models.ForeignKey(Choice,on_delete=models.CASCADE)
+    selected_choice = models.ForeignKey(Choice, on_delete=models.CASCADE)

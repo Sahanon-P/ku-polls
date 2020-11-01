@@ -9,11 +9,11 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Question, Choice, Vote
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from datetime import datetime
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
 import logging
+
 
 class IndexView(generic.ListView):
     """The view of index pages.
@@ -88,7 +88,9 @@ class ResultsView(generic.DetailView):
 log = logging.getLogger("polls")
 logging.basicConfig(level=logging.INFO)
 
+
 def get_client_ip(request):
+    """Get the client ip."""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -96,9 +98,10 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+
 @receiver(user_logged_in)
 def update_choice_login(request, **kwargs):
-    """Update your last vote when login."""
+    """Update the previous vote when login."""
     for question in Question.objects.all():
         question.previous_vote = str(request.user.vote_set.get(question=question).selected_choice)
         question.save()
@@ -106,8 +109,7 @@ def update_choice_login(request, **kwargs):
 
 @receiver(user_logged_in)
 def log_user_logged_in(sender, request, user, **kwargs):
-    """Log when user login."""
-
+    """Log info when user login."""
     ip = get_client_ip(request)
     date = datetime.now()
     log.info('Login user: %s , IP: %s , Date: %s', user, ip, str(date))
@@ -115,8 +117,7 @@ def log_user_logged_in(sender, request, user, **kwargs):
 
 @receiver(user_logged_out)
 def log_user_logged_out(sender, request, user, **kwargs):
-    """Log when user logout."""
-
+    """Log info when user logout."""
     ip = get_client_ip(request)
     date = datetime.now()
     log.info('Logout user: %s , IP: %s , Date: %s', user, ip, str(date))
@@ -124,11 +125,11 @@ def log_user_logged_out(sender, request, user, **kwargs):
 
 @receiver(user_login_failed)
 def log_user_login_failed(sender, request, credentials, **kwargs):
-    """Log when user fail to login."""
-
+    """Log info when the login failed."""
     ip = get_client_ip(request)
     date = datetime.now()
     log.warning('Login user(failed): %s , IP: %s , Date: %s', credentials['username'], ip, str(date))
+
 
 @login_required()
 def vote(request, question_id):
