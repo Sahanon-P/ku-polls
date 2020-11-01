@@ -103,8 +103,11 @@ def get_client_ip(request):
 def update_choice_login(request, **kwargs):
     """Update the previous vote when login."""
     for question in Question.objects.all():
-        question.previous_vote = str(request.user.vote_set.get(question=question).selected_choice)
-        question.save()
+        try:
+            question.previous_vote = str(request.user.vote_set.get(question=question).selected_choice)
+            question.save()
+        except(Vote.DoesNotExist):
+            pass
 
 
 @receiver(user_logged_in)
@@ -165,6 +168,9 @@ def vote(request, question_id):
         for choice in question.choice_set.all():
             choice.votes = Vote.objects.filter(question=question).filter(selected_choice=choice).count()
             choice.save()
+        if Vote.objects.filter(question=question).filter(selected_choice=choice).count() == 0:
+            selected_choice += 1
+            selected_choice.save()
         for question in Question.objects.all():
             question.previous_vote = str(request.user.vote_set.get(question=question).selected_choice)
             question.save()
