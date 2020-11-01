@@ -11,9 +11,12 @@ To see the **Iteration 1 Plan** [click](../../wiki/Iteration%201%20Plan)
 
 To see the **Iteration 2 Plan** [click](../../wiki/Iteration%202%20Plan)
 
-To see the **Iteration 1 task board** [click](../../projects/1)
+To see the **Iteration 3 Plan** [click](../../wiki/Iteration%203%20Plan)
 
-To see the **Iteration 2 task board** [click](../../projects/2)
+**Already closed**
+Iteration1 task board
 
-**Iteration 3 Coming Soon.....**
+Iteration2 task board
+
+To see the **Iteration 3 task board** [click](../../projects/3)
 
